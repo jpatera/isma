@@ -20,7 +20,7 @@ import javax.persistence.Transient;
 
 /**
  *
- * @author Honza
+ * @author Honza eeeee
  */
 @Entity
 @Access(AccessType.FIELD)

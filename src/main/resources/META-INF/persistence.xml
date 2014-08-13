@@ -10,12 +10,11 @@
       <property name="javax.persistence.jdbc.user" value="isma"/>
       <property name="javax.persistence.jdbc.password" value="isma"/>
       <property name="javax.persistence.schema-generation.database.action" value="none"/>
-
       <!-- EclipseLink properties -->
-        <property name="eclipselink.target-database" value="DERBY"/>
-        <property name="eclipselink.ddl-generation" value="none"/>
-        <property name="eclipselink.ddl-generation.output-mode" value="both"/>
-        <property name="eclipselink.logging.level" value="FINEST" />        
+      <property name="eclipselink.target-database" value="DERBY"/>
+      <property name="eclipselink.ddl-generation" value="create-tables"/>
+      <property name="eclipselink.ddl-generation.output-mode" value="both"/>
+      <property name="eclipselink.logging.level" value="FINEST"/>
     </properties>
   </persistence-unit>
 </persistence>

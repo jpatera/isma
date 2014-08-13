@@ -6,14 +6,21 @@
 
 package eu.japtor.isma.model;
 
+import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Temporal;
 
 /**
  *
  * @author Honza
  */
-public class Comment {
+@Entity
+public class Comment implements Serializable {
+    @Id
     private Long id;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date created;
     private Person author;
     private String header;

@@ -10,6 +10,7 @@ import java.util.Set;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.ws.rs.core.Application;
+import org.glassfish.jersey.server.ResourceConfig;
 
 /**
  *
@@ -17,7 +18,7 @@ import javax.ws.rs.core.Application;
  *
  */
 @javax.ws.rs.ApplicationPath("/")
-public class ApplicationConfig extends Application {
+public class ApplicationConfig extends ResourceConfig {
     static private final EntityManagerFactory EMF;
     static {
         EMF = Persistence.createEntityManagerFactory("ismaDemo");        
@@ -27,22 +28,24 @@ public class ApplicationConfig extends Application {
         // Register resources and providers using package-scanning.
 //        packages("eu.japtor.isma.resources");
 
+        registerInstances(new PersonResource(EMF));
+        
         System.out.println();
         System.out.println("*****   Application config OK   ******");
         System.out.println();
     }
 
-    @Override
-    public Set<Object> getSingletons() {
-        Set<Object> singletons = new HashSet<Object>();
-        PersonResource personResource = new PersonResource(EMF);
-        singletons.add(personResource);
-
-        System.out.println();
-        System.out.println("*****   Singletons defined   ******");
-        System.out.println();
-        
-        return singletons;
-    }
+//    @Override
+//    public Set<Object> getSingletons() {
+//        Set<Object> singletons = new HashSet<Object>();
+//        PersonResource personResource = new PersonResource(EMF);
+//        singletons.add(personResource);
+//
+//        System.out.println();
+//        System.out.println("*****   Singletons defined   ******");
+//        System.out.println();
+//        
+//        return singletons;
+//    }
 
 }

@@ -6,20 +6,38 @@
 
 package eu.japtor.isma.model;
 
+import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.Transient;
 
 /**
  *
  * @author Honza
  */
-public class Comment {
+@Entity
+@Access(AccessType.FIELD)
+public class Comment implements Serializable {
+    private static final long serialVersionUID = 13L;   
+    
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
     private Long id;
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Date created;
     private Person author;
     private String header;
     private String text;
 
     public Comment() {
+        // ..for JAXB & JPA
     }
 
     public Comment(Person author, String header) {

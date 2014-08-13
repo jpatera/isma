@@ -3,6 +3,7 @@
   <persistence-unit name="ismaDemo" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>eu.japtor.isma.model.Person</class>
+    <class>eu.japtor.isma.model.Comment</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.ClientDriver"/>
@@ -13,8 +14,11 @@
 
       <!-- EclipseLink properties -->
         <property name="eclipselink.target-database" value="DERBY"/>
-        <property name="eclipselink.ddl-generation" value="none"/>
+        <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
         <property name="eclipselink.ddl-generation.output-mode" value="both"/>
+        <property name="eclipselink.create-ddl-jdbc-file-name" value="createDDL_ddlGeneration.jdbc"/>
+        <property name="eclipselink.drop-ddl-jdbc-file-name" value="dropDDL_ddlGeneration.jdbc"/>        
+        <property name="eclipselink.deploy-on-startup" value="true"/>
         <property name="eclipselink.logging.level" value="FINEST" />        
     </properties>
   </persistence-unit>

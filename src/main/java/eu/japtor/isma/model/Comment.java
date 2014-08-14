@@ -29,15 +29,22 @@ public class Comment implements Serializable {
     
     @Id
     @GeneratedValue(strategy=GenerationType.SEQUENCE)
-    private Long id;
+        private Long id;
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Date created;
-    private Person author;
-    private String header;
-    private String text;
+        private Date created;
+        private Person author;
+        private String header;
+        private String text;
 
     public Comment() {
         // ..for JAXB & JPA
+    }
+
+    public Comment(Date created, Person author, String header, String text) {
+        this.created = created;
+        this.author = author;
+        this.header = header;
+        this.text = text;
     }
 
     public Comment(Person author, String header) {

@@ -8,21 +8,35 @@ package eu.japtor.isma.model;
 
 import java.util.Date;
 import java.util.List;
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Temporal;
 
 /**
  *
  * @author Honza
  */
+@Entity
+@Access(AccessType.FIELD)
 public class Issue {
-    private Long id;
-    private Date created;
-    private Person createdBy;
-    private Person assignedTo;
-    private String summary;
-    private String description;
-    private Integer priority;
-    private IssStatus status;
-    private List<Comment> comments;
+    private static final long serialVersionUID = 13L;       
+    
+    @Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)
+        private Long id;
+    @Temporal(javax.persistence.TemporalType.DATE)
+        private Date created;
+        private Person createdBy;
+        private Person assignedTo;
+        private String summary;
+        private String description;
+        private Integer priority;
+        private IssStatus status;
+        private List<Comment> comments;
 
     public Issue() {
     }

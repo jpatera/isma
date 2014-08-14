@@ -28,7 +28,6 @@ import org.glassfish.jersey.server.ResourceConfig;
  */
 @javax.ws.rs.ApplicationPath("/")
 public class ApplicationConfig extends ResourceConfig {
-
     static private final EntityManagerFactory EMF;
 
     static {
@@ -38,11 +37,13 @@ public class ApplicationConfig extends ResourceConfig {
     public ApplicationConfig() {
         // Register resources and providers using package-scanning.
 //        packages("eu.japtor.isma.resources");
-        List sqlCommands
-                = loadSQLCommands(ApplicationConfig.class
-                        .getResourceAsStream(
-                                "/META-INF/create-database.sql"));
+//        List sqlCommands
+//                = loadSQLCommands(ApplicationConfig.class
+//                        .getResourceAsStream(
+//                                "/META-INF/create-database.sql"));
 
+        registerInstances(new PersonResource(EMF));
+        
         System.out.println();
         System.out.println("*****   Application config OK   ******");
         System.out.println();
@@ -61,32 +62,17 @@ public class ApplicationConfig extends ResourceConfig {
 //        return singletons;
 //    }
 
-    public static List loadSQLCommands(InputStream stream) {
-        List sqlCommands = new ArrayList();
-        try {
-            BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(stream));
-            StringBuffer sb = new StringBuffer();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                sb.append(line.trim());
-            }
-            StringTokenizer st
-                    = new StringTokenizer(sb.toString(), ";");
-            while (st.hasMoreTokens()) {
-                sqlCommands.add(st.nextToken());
-            }
-            return sqlCommands;
-        } catch (MalformedURLException ex) {
-//            logger.log(Level.SEVERE,
-//                    "Malformed URI of the file.", ex);
-        } catch (FileNotFoundException fnfe) {
-//            logger.log(Level.WARNING,
-//                    "Database script not found.", fnfe);
-        } catch (IOException ioe) {
-//            logger.log(Level.WARNING,
-//                    "Problem to read the script.", ioe);
-        }
-        return null;
-    }
+//    @Override
+//    public Set<Object> getSingletons() {
+//        Set<Object> singletons = new HashSet<Object>();
+//        PersonResource personResource = new PersonResource(EMF);
+//        singletons.add(personResource);
+//
+//        System.out.println();
+//        System.out.println("*****   Singletons defined   ******");
+//        System.out.println();
+//        
+//        return singletons;
+//    }
+
 }

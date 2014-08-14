@@ -7,6 +7,8 @@
 package eu.japtor.isma.model;
 
 import java.io.Serializable;
+import javax.persistence.Access;
+import javax.persistence.AccessType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,13 +25,14 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement
 @Entity
+@Access(AccessType.FIELD)
 //@Embeddable
 public class Person implements Serializable {
     private static final long serialVersionUID = 13L;   
     
     @XmlElement(name="id")
     @Id
-    @GeneratedValue(strategy = GenerationType.TABLE)    
+    @GeneratedValue(strategy=GenerationType.SEQUENCE)    
         private Long id;    // Surrogate ID
     @XmlElement(name="code")
         private String code;
@@ -38,7 +41,7 @@ public class Person implements Serializable {
 
     
     
-    protected Person() {
+    public Person() {
         // ..for JAXB & JPA
     }
 

@@ -26,7 +26,7 @@ import javax.ws.rs.core.Response;
  */
 public class PersonRepoElnk implements PersonRepo {
 
-    private static final int STANDARD_MAX_REC = 10;
+    private static final int STANDARD_MAX_REC = 20;
     private static EntityManagerFactory EMF;
 
     public PersonRepoElnk(EntityManagerFactory aEMF) {

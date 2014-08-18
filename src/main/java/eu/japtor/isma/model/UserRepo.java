@@ -15,12 +15,12 @@ public interface UserRepo {
 
     public List<User> getUsers(Integer maxRec);
     public User getUserByCode(String userCode);
-    public User getUserByName(String userName);
+    public User getUserByLoginName(String userName);
     public String createUser(User user);
 //    public int updateUser(User user);
     public int deleteUserByCode(String userCode);
-    public int deleteUserByName(String userName);
+    public int deleteUserByLoginName(String userName);
     public void deleteAllUsers();
-    public boolean userWithCodeExist(String userCode);
-    public boolean userWithNameExist(String userName);
+    public boolean userWithUserCodeExist(String userCode);
+    public boolean userWithLoginNameExist(String userName);
 }

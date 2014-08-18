@@ -32,7 +32,7 @@ public class UserResourceTest {
     
     @BeforeClass
     public static void setUpClass() {
-//        EMF = Persistence.createEntityManagerFactory("ismaDemo");        
+        EMF = Persistence.createEntityManagerFactory("ismaDemo");        
     }
     
     @AfterClass
@@ -105,7 +105,7 @@ public class UserResourceTest {
      * Test of createUser method, of class UserResource.
      */
     @Test
-    public void testCreateAndDeletePerson() {
+    public void testCreateAndDeleteUser() {
 //        System.out.println("createPerson");
 //        UserResource instance = new UserResource(EMF);
 //        Response response;

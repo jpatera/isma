@@ -13,6 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -24,7 +25,8 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement
-@Entity
+@Entity()
+@Table(name="usr")
 @Access(AccessType.FIELD)
 //@Embeddable
 public class User implements Serializable {
@@ -35,28 +37,28 @@ public class User implements Serializable {
     @GeneratedValue(strategy=GenerationType.SEQUENCE)    
         private Long id;        // Surrogate ID
     @XmlElement(name="code")
-        private String code;    // Domain code
-    @XmlElement(name="name")
-        private String name;
-    @XmlElement(name="userName")
-        private String userName;
-    @XmlElement(name="userPassword")
-        private String userPassword;
+        private String code;    // Domain user UUID code
+    @XmlElement(name="fullName")
+        private String fullName;
+    @XmlElement(name="loginName")
+        private String loginName;
+    @XmlElement(name="loginPwd")
+        private String loginPwd;
 
-    
     
     public User() {
         // ..for JAXB & JPA
     }
 
-    public User(String code, String name) {
-        this.code = code;
-        this.name = name;
+    public User(String aCode, String aLoginName, String aFullName) {
+        this.code = aCode;
+        this.loginName = aLoginName;
+        this.fullName = aFullName == null ? "NO NAME" : aFullName;
     }
 
     @Override
     public String toString() {
-        return "Person {" + "id=" + id + ", code=" + code + ", name=" + name + '}';
+        return "User {" + "id=" + id + ", code=" + code + ", loginName=" + loginName + '}';
     }
     
     public long getId() {
@@ -67,12 +69,27 @@ public class User implements Serializable {
         return code;
     }
     
-    public String getName() {
-        return name;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
     
+    public String getLoginName() {
+        return loginName;
+    }
+
+//    public void setUserName(String loginName) {
+//        this.loginName = loginName;
+//    }
+
+    public String getLoginPwd() {
+        return loginPwd;
+    }
+
+    public void setLoginPwd(String loginPwd) {
+        this.loginPwd = loginPwd;
+    }    
 }

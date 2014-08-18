@@ -41,7 +41,7 @@ public class UserRepoElnk implements UserRepo {
             maxRec = STANDARD_MAX_REC;
         }
         try {
-            String qStr = "SELECT p FROM User p";
+            String qStr = "SELECT u FROM User u";
             TypedQuery<User> query = em.createQuery(qStr, User.class)
                 .setMaxResults(maxRec);
             return query.getResultList();
@@ -60,7 +60,7 @@ public class UserRepoElnk implements UserRepo {
     public User getUserByCode(String aUserCode) {
         try {
             EntityManager em = EMF.createEntityManager();
-            String qStr = "SELECT p FROM User p WHERE p.code = ?1";
+            String qStr = "select u from User u where u.code = ?1";
             TypedQuery<User> query = em.createQuery(qStr, User.class);
             query.setParameter(1, aUserCode);
             return query.getSingleResult();
@@ -76,20 +76,20 @@ public class UserRepoElnk implements UserRepo {
     }
 
     @Override
-    public User getUserByName(String aUserName) {
+    public User getUserByLoginName(String aLoginName) {
         try {
             EntityManager em = EMF.createEntityManager();
-            String qStr = "SELECT p FROM User p WHERE p.name = ?1";
+            String qStr = "select u from User u where u.loginName = ?1";
             TypedQuery<User> query = em.createQuery(qStr, User.class);
-            query.setParameter(1, aUserName);
+            query.setParameter(1, aLoginName);
             return query.getSingleResult();
         } catch (NoResultException e) {
             throw new AplWebException(Response.Status.NOT_FOUND
-                , "Nenalezen uživatel se jmenem=" + aUserName
-                , "Takova osoba v DB neexistuje...?");            
+                , "Nenalezen uživatel s přihlašovacím jménem=" + aLoginName
+                , "Zřejmě neexistuje v DB...?");            
         } catch (Exception e) {
             throw new AplWebException(Response.Status.INTERNAL_SERVER_ERROR
-                , "Chyba pri hledani osoby se jmenem=" + aUserName
+                , "Chyba pri hledání uživatele s přihlašovacím jménem=" + aLoginName
                 , "Systemová zprava:\n" + e.getMessage());            
         }
     }
@@ -105,13 +105,13 @@ public class UserRepoElnk implements UserRepo {
             return aUser.getCode();
         } catch (EntityExistsException e) {
             throw new AplWebException(Response.Status.CONFLICT
-                , "Osoba s ID=" + aUser.getId() + " jiz existuje"
-                , "");            
+                , "Uživatel s ID=" + aUser.getId() + " již existuje."
+                , "Chyba DB...?");            
         } catch (Exception e) {
             em.getTransaction().rollback();
             throw new AplWebException(Response.Status. INTERNAL_SERVER_ERROR
-                , "Chyba pri vkladani nove osoby se jmenem=" + aUser.getName()
-                , "Systemova zprava:\n" + e.getMessage());            
+                , "Chyba při vkládání nového uživatele s přihlašovacím jménem=" + aUser.getLoginName()
+                , "Systémová zpráva:\n" + e.getMessage());            
         }
     }
 
@@ -120,35 +120,35 @@ public class UserRepoElnk implements UserRepo {
         EntityManager em = EMF.createEntityManager();
         try {
             em.getTransaction().begin();
-                String qStr = "DELETE FROM User p WHERE p.code = :code";
+                String qStr = "delete from usr u where u.code = :p_code";
                 Query query = em.createQuery(qStr);
-                int delCount = query.setParameter("code", aUserCode).executeUpdate();
+                int delCount = query.setParameter("p_code", aUserCode).executeUpdate();
             em.getTransaction().commit();
             return delCount;
         } catch (Exception e) {
             em.getTransaction().rollback();
             throw new AplWebException(Response.Status. INTERNAL_SERVER_ERROR
-                , "Chyba pri ruseni osoby s kodem=" + aUserCode
-                , "Systemova zprava:\n" + e.getMessage());            
+                , "Chyba při rušení uživatele s kódem=" + aUserCode
+                , "Systémová zpráva:\n" + e.getMessage());            
         }
     }
 
     
     @Override
-    public int deleteUserByName(String aUserName) {
+    public int deleteUserByLoginName(String aLoginName) {
         EntityManager em = EMF.createEntityManager();
         try {
             em.getTransaction().begin();
-                String qStr = "DELETE FROM User p WHERE p.name = :name";
+                String qStr = "delete from usr u where u.loginname = :p_login";
                 Query query = em.createQuery(qStr);
-                int delCount = query.setParameter("name", aUserName).executeUpdate();
+                int delCount = query.setParameter("p_login", aLoginName).executeUpdate();
             em.getTransaction().commit();
             return delCount;
         } catch (Exception e) {
             em.getTransaction().rollback();
             throw new AplWebException(Response.Status.INTERNAL_SERVER_ERROR
-                , "Chyba pri ruseni osoby se jmenem=" + aUserName
-                , "Systemova zprava:\n" + e.getMessage());            
+                , "Chyba při rušení uživatele se jménem=" + aLoginName
+                , "Systémová zpráva:\n" + e.getMessage());            
         }
     }
 
@@ -157,7 +157,7 @@ public class UserRepoElnk implements UserRepo {
         EntityManager em = EMF.createEntityManager();
         try {
             em.getTransaction().begin();
-            Query query = em.createNativeQuery("TRUNCATE TABLE user");
+            Query query = em.createNativeQuery("TRUNCATE TABLE usr");
             query.executeUpdate();
             em.getTransaction().commit();
         } catch (Exception e) {
@@ -170,32 +170,32 @@ public class UserRepoElnk implements UserRepo {
 
     
     @Override
-    public boolean userWithCodeExist(String aUserCode) {
+    public boolean userWithUserCodeExist(String aUserCode) {
         EntityManager em = EMF.createEntityManager();
         try {
             Query query = em.createNativeQuery(
-                "select count(*) cnt from User where code ='" +  aUserCode + "'");        
+                "select count(*) cnt from usr where code ='" +  aUserCode + "'");        
             Integer cnt = (Integer)query.getSingleResult();
             return (cnt > 0);
         } catch (Exception e) {
             throw new AplWebException(Response.Status.INTERNAL_SERVER_ERROR
-                , "Chyba pri hledani osoby s kodem=" + aUserCode
-                , "Systemova zprava:\n" + e.getMessage());
+                , "Chyba při hledání uživatelem s kódem=" + aUserCode
+                , "Systémová zpráva:\n" + e.getMessage());
         }
     }
 
     @Override
-    public boolean userWithNameExist(String aUserName) {
+    public boolean userWithLoginNameExist(String aLoginName) {
         EntityManager em = EMF.createEntityManager();
         try {
             Query query = em.createNativeQuery(
-                "select count(*) cnt from User where name = '" + aUserName + "'");
+                "select count(*) cnt from usr where loginname = '" + aLoginName + "'");
             Integer cnt = (Integer)query.getSingleResult();
             return (cnt > 0);
         } catch (Exception e) {
             throw new AplWebException(Response.Status.INTERNAL_SERVER_ERROR
-                , "Chyba pri hledani osoby se jmenem=" + aUserName
-                , "Systemova zprava:\n" + e.getMessage());
+                , "Chyba při hledání uživatele s přihlašovacím jménem=" + aLoginName
+                , "Systémová zpráva:\n" + e.getMessage());
         }
     }    
 }

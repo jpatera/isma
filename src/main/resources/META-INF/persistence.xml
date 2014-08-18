@@ -7,11 +7,14 @@
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.ClientDriver"/>
+<!--      <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver"/>-->
       <!--      <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/D:/AplNBens/_db_derby/isma_demo;create=true"/>-->
-      <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/D:/AplNBeans/_db_derby/isma_demo;create=true"/>
+<!--      <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/D:/AplNBeans/_db_derby/isma_demo;create=true"/>-->
+<!--      <property name="javax.persistence.jdbc.url" value="jdbc:derby:memory:isma_demo;create=true"/>-->
+      <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/memory:isma_demo;create=true"/>
       <property name="javax.persistence.jdbc.user" value="isma"/>
       <property name="javax.persistence.jdbc.password" value="isma"/>
-      <property name="javax.persistence.schema-generation.database.action" value="none"/>
+      <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
       <!-- EclipseLink properties -->
       <property name="eclipselink.target-database" value="DERBY"/>
       <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
@@ -19,6 +22,10 @@
       <property name="eclipselink.create-ddl-jdbc-file-name" value="createDDL_ddlGeneration.jdbc"/>
       <property name="eclipselink.drop-ddl-jdbc-file-name" value="dropDDL_ddlGeneration.jdbc"/>
       <property name="eclipselink.deploy-on-startup" value="true"/>
+      <property name="eclipselink.debug" value="ALL"/>
+      <property name="eclipselink.weaving" value="static"/>      
+      <property name="eclipselink.logging.level.sql" value="FINEST"/>
+      <property name="eclipselink.logging.level.cache" value="FINEST"/>      
       <property name="eclipselink.logging.level" value="FINEST"/>
     </properties>
   </persistence-unit>

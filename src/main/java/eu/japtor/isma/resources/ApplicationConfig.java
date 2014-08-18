@@ -42,7 +42,7 @@ public class ApplicationConfig extends ResourceConfig {
 //                        .getResourceAsStream(
 //                                "/META-INF/create-database.sql"));
 
-        registerInstances(new PersonResource(EMF));
+        registerInstances(new UserResource(EMF));
         
         System.out.println();
         System.out.println("*****   Application config OK   ******");
@@ -52,7 +52,7 @@ public class ApplicationConfig extends ResourceConfig {
 //    @Override
 //    public Set<Object> getSingletons() {
 //        Set<Object> singletons = new HashSet<Object>();
-//        PersonResource personResource = new PersonResource(EMF);
+//        UserResource personResource = new UserResource(EMF);
 //        singletons.add(personResource);
 //
 //        System.out.println();
@@ -65,7 +65,7 @@ public class ApplicationConfig extends ResourceConfig {
 //    @Override
 //    public Set<Object> getSingletons() {
 //        Set<Object> singletons = new HashSet<Object>();
-//        PersonResource personResource = new PersonResource(EMF);
+//        UserResource personResource = new UserResource(EMF);
 //        singletons.add(personResource);
 //
 //        System.out.println();

@@ -10,6 +10,6 @@ package eu.japtor.isma.model;
  *
  * @author Honza
  */
-public enum IssStatus {
+public enum IssueStatus {
     OPENED, PROGRESS, CLOSED;
 }

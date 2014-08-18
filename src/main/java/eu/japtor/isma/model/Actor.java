@@ -9,6 +9,7 @@ package eu.japtor.isma.model;
 import java.io.Serializable;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,37 +23,32 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author Honza
  */
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlRootElement
-@Entity
+@Embeddable
 @Access(AccessType.FIELD)
-//@Embeddable
-public class Person implements Serializable {
+public class Actor implements Serializable {
     private static final long serialVersionUID = 13L;   
     
-    @XmlElement(name="id")
-    @Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE)    
-        private Long id;    // Surrogate ID
-    @XmlElement(name="code")
-        private String code;
-    @XmlElement(name="name")
-        private String name;    // Domain code
-
+//    @Id
+//    @GeneratedValue(strategy=GenerationType.SEQUENCE)    
+        private Long id;        // Surrogate ID
+//    @XmlElement(name="code")
+        private String code;    // Domain code
+//    @XmlElement(name="name")
+        private String name;
     
     
-    public Person() {
+    public Actor() {
         // ..for JAXB & JPA
     }
 
-    public Person(String code, String name) {
+    public Actor(String code, String name) {
         this.code = code;
         this.name = name;
     }
 
     @Override
     public String toString() {
-        return "Person {" + "id=" + id + ", code=" + code + ", name=" + name + '}';
+        return "Actor {" + "id=" + id + ", code=" + code + ", name=" + name + '}';
     }
     
     public long getId() {

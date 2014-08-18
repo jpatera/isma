@@ -6,10 +6,10 @@
 package eu.japtor.isma.resources;
 
 import eu.japtor.isma.errors.AplWebException;
-import eu.japtor.isma.model.Person;
-import eu.japtor.isma.model.PersonRepo;
+import eu.japtor.isma.model.User;
+import eu.japtor.isma.model.UserRepo;
 import eu.japtor.isma.persistence.AtomIdGenerator;
-import eu.japtor.isma.persistence.PersonRepoElnk;
+import eu.japtor.isma.persistence.UserRepoElnk;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.ws.rs.Consumes;
@@ -30,12 +30,12 @@ import javax.ws.rs.core.UriInfo;
  * @author Honza
  */
 @Path("people")
-public class PersonResource {
-    private final PersonRepo personRepo;
+public class UserResource {
+    private final UserRepo personRepo;
 
-    protected PersonResource(EntityManagerFactory aEMF) {
+    protected UserResource(EntityManagerFactory aEMF) {
         // Create person repo with given Ent.Man.Factory:
-        personRepo = new PersonRepoElnk(aEMF);
+        personRepo = new UserRepoElnk(aEMF);
     }
 
     
@@ -49,8 +49,8 @@ public class PersonResource {
      */
     @GET
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    public List<Person> getPeople(@QueryParam("max") Integer maxRec) {
-        List<Person> people = personRepo.getPeople(maxRec);
+    public List<User> getPeople(@QueryParam("max") Integer maxRec) {
+        List<User> people = personRepo.getUsers(maxRec);
         return people;
     }
 
@@ -59,7 +59,7 @@ public class PersonResource {
     @Path("/byName/{name}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Response getPersonByName(@PathParam("name") String aPersonName) {
-        Person person = personRepo.getPersonByName(aPersonName);
+        User person = personRepo.getUserByName(aPersonName);
         if (person != null) {
             return Response.ok().entity(person)
                 .entity(person)
@@ -75,7 +75,7 @@ public class PersonResource {
     @Path("/byCode/{code}")
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public Response getPersonByCode(@PathParam("code") String aPersonCode) {
-        Person person = personRepo.getPersonByCode(aPersonCode);
+        User person = personRepo.getUserByCode(aPersonCode);
         if (person != null) {
             return Response.ok()
                 .entity(person)
@@ -99,13 +99,13 @@ public class PersonResource {
     @POST
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Produces({MediaType.TEXT_HTML})
-    public Response createPerson(Person aPerson, @Context UriInfo uriInfo) {
-        if (personRepo.personWithNameExist(aPerson.getName())) {
+    public Response createPerson(User aPerson, @Context UriInfo uriInfo) {
+        if (personRepo.userWithNameExist(aPerson.getName())) {
             throw new AplWebException(Response.Status.CONFLICT, "Jmeno  " + aPerson.getName() + " je jiz obsazeno", "Pouzij jine jmeno");
         }
 
-        Person newPerson = new Person(AtomIdGenerator.nextId(), aPerson.getName());
-        String newPersonCode = personRepo.createPerson(newPerson);
+        User newPerson = new User(AtomIdGenerator.nextId(), aPerson.getName());
+        String newPersonCode = personRepo.createUser(newPerson);
         return Response.status(Response.Status.CREATED)
             .entity("Nova osoba byla vytvorena s kodem=" + newPersonCode)
             .header("Location",
@@ -126,17 +126,17 @@ public class PersonResource {
 //    @Path("{code}")
 //    @Consumes({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
 //    @Produces({MediaType.APPLICATION_XML,MediaType.APPLICATION_JSON})
-//    public Response fullyUpdatePerson(@PathParam("code") String aPersonCode, Person aPerson)
+//    public Response fullyUpdatePerson(@PathParam("code") String aPersonCode, User aPerson)
 //            throws AplWebException {
 //
-//        boolean personWithCodeExist = personRepo.personWithCodeExist(aPersonCode);
+//        boolean userWithCodeExist = personRepo.userWithCodeExist(aPersonCode);
 //
-//        if (personWithCodeExist) {
+//        if (userWithCodeExist) {
 //            // Resource exist under the specified URI, can be updated:
 //            personRepo.updatePerson(aPerson);
 //            return Response
 //                    .status(Response.Status.OK)
-//                    .entity("Person has been updated")
+//                    .entity("User has been updated")
 //                    .header("Location",
 //                          uriInfo.getAbsolutePath().toString()
 //                        + "byCode/"
@@ -144,7 +144,7 @@ public class PersonResource {
 //        } else {
 //            // Resource does not exist - update error:
 //            throw new AplWebException(Response.Status.CONFLICT
-//                    , "Person does not exist - cannot update"
+//                    , "User does not exist - cannot update"
 //                    , "Create person resource first");
 //        }
 //    }
@@ -161,7 +161,7 @@ public class PersonResource {
     @Path("/byCode/{code}")
     @Produces({MediaType.TEXT_HTML})
     public Response deletePersonByCode(@PathParam("code") String aPersonCode) {
-        int delCount = personRepo.deletePersonByCode(aPersonCode);
+        int delCount = personRepo.deleteUserByCode(aPersonCode);
         if (delCount == 1) {
             return Response.ok()
                 .entity("Osoba s kodem=" + aPersonCode + " byla zrusena v DB")
@@ -190,7 +190,7 @@ public class PersonResource {
     @Path("/byName/{name}")
     @Produces({MediaType.TEXT_HTML})
     public Response deletePersonByName(@PathParam("name") String aPersonName) {
-        int delCount = personRepo.deletePersonByName(aPersonName);
+        int delCount = personRepo.deleteUserByName(aPersonName);
         if (delCount == 1) {
             return Response.ok()
                 .entity("Osoba se jmenem=" + aPersonName + " byla zrusena v DB")
@@ -217,7 +217,7 @@ public class PersonResource {
     @DELETE
     @Produces({MediaType.TEXT_HTML})
     public Response deleteAllPeople() {
-        personRepo.deleteAllPeople();
+        personRepo.deleteAllUsers();
         return Response.status(Response.Status.NO_CONTENT)
             .entity("Vsechny osoby byly zruseny v DB")
             .build();

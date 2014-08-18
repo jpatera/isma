@@ -17,7 +17,7 @@ public class Project {
     private static int MAX_ISSUES = 5;
     private Long id;
     private Date created;
-    private Person owner;        
+    private User owner;        
     private String header;
     private String desription;
     private List<Issue> issues;
@@ -25,7 +25,7 @@ public class Project {
     public Project() {
     }
 
-    public Project(Person owner, String header) {
+    public Project(User owner, String header) {
         this.owner = owner;     // Mandatory
         this.header = header;   // Mandatory
     }
@@ -50,7 +50,7 @@ public class Project {
         return created;
     }
 
-    public Person getOwner() {
+    public User getOwner() {
         return owner;
     }
 

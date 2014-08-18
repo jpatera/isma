@@ -6,6 +6,7 @@
 
 package eu.japtor.isma.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Access;
@@ -14,6 +15,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 
 /**
@@ -22,7 +24,7 @@ import javax.persistence.Temporal;
  */
 @Entity
 @Access(AccessType.FIELD)
-public class Issue {
+public class Issue implements Serializable {
     private static final long serialVersionUID = 13L;       
     
     @Id
@@ -30,30 +32,31 @@ public class Issue {
         private Long id;
     @Temporal(javax.persistence.TemporalType.DATE)
         private Date created;
-        private Person createdBy;
-        private Person assignedTo;
+        private User createdBy;
+        private User assignedTo;
         private String summary;
         private String description;
         private Integer priority;
-        private IssStatus status;
-        private List<Comment> comments;
+        private IssueStatus status;
+//    @OneToMany(mappedBy = "issue")
+//        private List<Comment> comments;
 
     public Issue() {
     }
 
-    public Issue(Person createdBy, String summary) {
+    public Issue(User createdBy, String summary) {
         this.createdBy = createdBy; // Mandatory
         this.summary = summary;     // Mandatory
     }
 
-    public boolean changeStatus(IssStatus aNewStatus) {
+    public boolean changeStatus(IssueStatus aNewStatus) {
         boolean canChange = false;
         switch (aNewStatus) {
             case PROGRESS:
-                canChange = (status == IssStatus.OPENED);
+                canChange = (status == IssueStatus.OPENED);
                 break;
             case CLOSED:
-                canChange = (status == IssStatus.OPENED || status == IssStatus.PROGRESS);
+                canChange = (status == IssueStatus.OPENED || status == IssueStatus.PROGRESS);
                 break;
         }
         if (canChange) {
@@ -70,11 +73,11 @@ public class Issue {
         return created;
     }
 
-    public Person getCreatedBy() {
+    public User getCreatedBy() {
         return createdBy;
     }
 
-    public Person getAssignedTo() {
+    public User getAssignedTo() {
         return assignedTo;
     }
 
@@ -90,16 +93,16 @@ public class Issue {
         return priority;
     }
 
-    public IssStatus getStatus() {
+    public IssueStatus getStatus() {
         return status;
     }
 
-    private void setStatus(IssStatus status) {
+    private void setStatus(IssueStatus status) {
         this.status = status;
     }
 
-    public List<Comment> getComments() {
-        return comments;
-    }
+//    public List<Comment> getComments() {
+//        return comments;
+//    }
     
 }

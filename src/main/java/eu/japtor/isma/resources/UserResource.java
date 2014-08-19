@@ -187,7 +187,7 @@ public class UserResource {
      * @throws  AplWebException
      */
     @DELETE
-    @Path("/byName/{login}")
+    @Path("/byLogin/{login}")
     @Produces({MediaType.TEXT_HTML})
     public Response deleteUserByLoginName(@PathParam("login") String aLoginName) {
         int delCount = userRepo.deleteUserByLoginName(aLoginName);

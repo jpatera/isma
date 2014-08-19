@@ -120,7 +120,7 @@ public class UserRepoElnk implements UserRepo {
         EntityManager em = EMF.createEntityManager();
         try {
             em.getTransaction().begin();
-                String qStr = "delete from usr u where u.code = :p_code";
+                String qStr = "delete from User u where u.code = :p_code";
                 Query query = em.createQuery(qStr);
                 int delCount = query.setParameter("p_code", aUserCode).executeUpdate();
             em.getTransaction().commit();
@@ -139,7 +139,7 @@ public class UserRepoElnk implements UserRepo {
         EntityManager em = EMF.createEntityManager();
         try {
             em.getTransaction().begin();
-                String qStr = "delete from usr u where u.loginname = :p_login";
+                String qStr = "delete from User u where u.loginName = :p_login";
                 Query query = em.createQuery(qStr);
                 int delCount = query.setParameter("p_login", aLoginName).executeUpdate();
             em.getTransaction().commit();

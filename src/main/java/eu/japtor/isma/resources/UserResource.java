@@ -12,6 +12,7 @@ import eu.japtor.isma.persistence.AtomIdGenerator;
 import eu.japtor.isma.persistence.UserRepoElnk;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
+import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -99,12 +100,18 @@ public class UserResource {
     @POST
     @Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Produces({MediaType.TEXT_HTML})
-    public Response createUser(User aUser, @Context UriInfo aUriInfo) {
+//    public Response createUser(@Valid User aUser, @Context UriInfo aUriInfo) {
+    public Response createUser(@Valid User aUser, @Context UriInfo aUriInfo) {
         if (userRepo.userWithLoginNameExist(aUser.getLoginName())) {
             throw new AplWebException(Response.Status.CONFLICT, "Přihlašovací jméno  " + aUser.getLoginName() + " je již obsazeno.", "Použij jiné.");
         }
 
-        User newUser = new User(AtomIdGenerator.nextId(), aUser.getLoginName(), aUser.getFullName());
+        User newUser = new User(AtomIdGenerator.nextId()
+                , aUser.getLoginName()
+                , aUser.getLoginPwd()
+                , aUser.getFirstName()
+                , aUser.getLastName()
+                , aUser.getEmail());
         String newUserCode = userRepo.createUser(newUser);
         return Response.status(Response.Status.CREATED)
             .entity("Nový uživatel s přihlašovacím jménem=" + aUser.getLoginName() + "  je vytvořen.")

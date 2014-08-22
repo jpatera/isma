@@ -13,11 +13,11 @@ import java.util.List;
  * @author Honza
  */
 public interface IssueRepo {
-    
 
+    public List<Issue> getIssues(Integer aMaxRec);
     public List<Comment> getIssueComments(Issue issue);
-    public Comment getCommentById(Long id);
-    public String createComment(Comment comment);
+    public Issue getIssueById(Long id);
+    public Long createIssue(Issue issue);
 //    public int updateComment(Comment comment);
 //    public int deleteCommentById(Long id);
 }

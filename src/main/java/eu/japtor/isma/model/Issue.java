@@ -12,11 +12,15 @@ import java.util.List;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -30,13 +34,16 @@ public class Issue implements Serializable {
     @Id
     @GeneratedValue(strategy=GenerationType.SEQUENCE)
         private Long id;
-    @Temporal(javax.persistence.TemporalType.DATE)
+    @Temporal(TemporalType.DATE)
         private Date created;
+    @ManyToOne
         private User createdBy;
+    @ManyToOne
         private User assignedTo;
         private String summary;
         private String description;
         private Integer priority;
+    @Enumerated(EnumType.STRING)        
         private IssueStatus status;
 //    @OneToMany(mappedBy = "issue")
 //        private List<Comment> comments;
@@ -60,7 +67,7 @@ public class Issue implements Serializable {
                 break;
         }
         if (canChange) {
-            setStatus(aNewStatus);
+            status = aNewStatus;
         }
         return canChange;
     }
@@ -95,10 +102,6 @@ public class Issue implements Serializable {
 
     public IssueStatus getStatus() {
         return status;
-    }
-
-    private void setStatus(IssueStatus status) {
-        this.status = status;
     }
 
 //    public List<Comment> getComments() {

@@ -4,6 +4,7 @@
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>eu.japtor.isma.model.Comment</class>
     <class>eu.japtor.isma.model.User</class>
+    <class>eu.japtor.isma.model.Issue</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.ClientDriver"/>

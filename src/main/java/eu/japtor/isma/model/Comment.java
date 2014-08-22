@@ -19,6 +19,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.SecondaryTable;
+import javax.persistence.SecondaryTables;
 import javax.persistence.Temporal;
 import javax.persistence.Transient;
 
@@ -36,35 +39,39 @@ public class Comment implements Serializable {
         private Long id;
     @Temporal(javax.persistence.TemporalType.DATE)
         private Date created;
-    @Embedded
-    @AttributeOverrides({
-      @AttributeOverride(name   =  "code",
-          column = @Column(name = "author_code")),
-      @AttributeOverride(name   =  "name",
-            column = @Column(name = "author_name")),
-    })
-        private Actor author;
-//        private Long authorId;
         private String header;
         private String text;
-//    @ManyToOne
-//    private Issue issue;
+    @Column(updatable=false)
+        private String author_code;
+    @Column(updatable=false)
+        private String author_name;
+//    @Embedded
+//    @AttributeOverrides({
+//      @AttributeOverride(name   =  "code",
+//          column = @Column(name = "author_code")),
+//      @AttributeOverride(name   =  "fullName",
+//            column = @Column(name = "author_name")),
+//    })
 
+        
+        
+        
     public Comment() {
         // ..for JAXB & JPA
     }
 
-    public Comment(Date created, Actor author, String header, String text) {
+    public Comment(Date created, String header, String text, User author) {
         this.created = created;
-        this.author = author;
         this.header = header;
         this.text = text;
+        this.author_code = author.getCode();
+        this.author_name = author.getFullName();
     }
 
-    public Comment(Actor actor, String header) {
-        this.author = author;   // Mandatory
-        this.header = header;   // Mandatory
-    }
+//    public Comment(Actor actor, String header) {
+////        this.author = author;   // Mandatory
+//        this.header = header;   // Mandatory
+//    }
 
     public Long getId() {
         return id;
@@ -84,6 +91,14 @@ public class Comment implements Serializable {
 
     public String getText() {
         return text;
+    }
+
+    public String getAuthor_code() {
+        return author_code;
+    }
+
+    public String getAuthor_name() {
+        return author_name;
     }
     
     

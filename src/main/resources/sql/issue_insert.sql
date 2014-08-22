@@ -1,0 +1,3 @@
+
+INSERT INTO ISMA.ISSUE (CREATED, DESCRIPTION, PRIORITY, STATUS, SUMMARY, ASSIGNEDTO_ID, CREATEDBY_ID) 
+	VALUES ('2014-08-21', 'Issue 2 description', 1, 'OPENED', 'Issue 2 summary summary summary', 1, 1);

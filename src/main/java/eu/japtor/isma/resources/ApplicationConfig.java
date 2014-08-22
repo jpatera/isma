@@ -19,6 +19,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.validation.ParameterNameProvider;
@@ -27,6 +30,7 @@ import javax.ws.rs.container.ResourceContext;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.ext.ContextResolver;
+import org.glassfish.jersey.filter.LoggingFilter;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.server.ServerProperties;
 import org.glassfish.jersey.server.validation.ValidationConfig;
@@ -39,7 +43,9 @@ import org.glassfish.jersey.server.validation.internal.InjectingConstraintValida
  */
 @javax.ws.rs.ApplicationPath("/")
 public class ApplicationConfig extends ResourceConfig {
-    static private final EntityManagerFactory EMF;
+    private static final EntityManagerFactory EMF;
+    private static Logger logger =
+      Logger.getLogger(ApplicationConfig.class.getName());
 
     static {
         EMF = Persistence.createEntityManagerFactory("ismaDemo");
@@ -54,6 +60,7 @@ public class ApplicationConfig extends ResourceConfig {
 //                                "/META-INF/create-database.sql"));
 
         registerInstances(new UserResource(EMF));
+        registerInstances(new IssueResource(EMF));
         
         // Validation.
 //        register(ValidationConfigurationContextResolver.class);
@@ -63,9 +70,34 @@ public class ApplicationConfig extends ResourceConfig {
 //        register(MoxyJsonFeature.class);
 //        register(JsonConfiguration.class);
         
-        System.out.println();
-        System.out.println("*****   Application config OK   ******");
-        System.out.println();
+        // Enable LoggingFilter & output entity.     
+        this.registerInstances(new LoggingFilter(logger, true));
+  
+        logger.info("+++   Initializing the database    +++");
+//        logger.info("RESOURCE THREAD: " + Thread.currentThread().getContextClassLoader().getResource("/"));
+//        logger.info("RESOURCE APPL. : " + ApplicationConfig.class.getResource("/"));
+
+//        logger.info("RESOURCE: " + ApplicationConfig.class.getResource("/sql/usr_insert.sql"). getPath());
+
+        EntityManager em = EMF.createEntityManager();
+        try {
+            em.getTransaction().begin();
+                List<String> sqlCommands = loadSqlCommands(
+                        ApplicationConfig.class.getResourceAsStream(
+                                "/sql/usr_insert.sql"));
+                for (String sqlCommand : sqlCommands) {
+                    em.createNativeQuery(sqlCommand).executeUpdate();
+                    logger.info("data update: " + sqlCommand);
+                }
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            logger.info("!!!   ERROR: while initializating DB    +++");
+            em.getTransaction().rollback();
+        }
+
+        logger.info("");
+        logger.info("*****   Application config OK   ******");
+        logger.info("");
     }
 //
 //    @Override
@@ -155,5 +187,35 @@ public class ApplicationConfig extends ResourceConfig {
 //            return config;
 //        }
 //    }    
+
     
+    
+    public static List loadSqlCommands(InputStream stream) {
+        List sqlCommands = new ArrayList();
+        try {
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(stream));
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                sb.append(line.trim());
+            }
+            StringTokenizer st = new StringTokenizer(sb.toString(), ";");
+            while (st.hasMoreTokens()) {
+                sqlCommands.add(st.nextToken());
+            }
+            return sqlCommands;
+        } catch (MalformedURLException ex) {
+            logger.log(Level.SEVERE,
+                    "Malformed URI of the file.", ex);
+        } catch (FileNotFoundException fnfe) {
+            logger.log(Level.WARNING,
+                    "Database script not found.", fnfe);
+        } catch (IOException ioe) {
+            logger.log(Level.WARNING,
+                    "Problem to read the script.", ioe);
+        }
+        return null;
+    }
+
 }

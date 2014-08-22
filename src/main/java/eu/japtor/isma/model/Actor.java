@@ -23,8 +23,8 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author Honza
  */
-@Embeddable
-@Access(AccessType.FIELD)
+//@Embeddable
+//@Access(AccessType.FIELD)
 public class Actor implements Serializable {
     private static final long serialVersionUID = 13L;   
     

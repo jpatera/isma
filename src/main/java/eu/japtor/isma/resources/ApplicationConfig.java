@@ -87,7 +87,7 @@ public class ApplicationConfig extends ResourceConfig {
                                 "/sql/usr_insert.sql"));
                 for (String sqlCommand : sqlCommands) {
                     em.createNativeQuery(sqlCommand).executeUpdate();
-                    logger.info("data update: " + sqlCommand);
+                    logger.log(Level.INFO, "data update: {0}", sqlCommand);
                 }
             em.getTransaction().commit();
         } catch (Exception e) {
@@ -194,7 +194,7 @@ public class ApplicationConfig extends ResourceConfig {
         List sqlCommands = new ArrayList();
         try {
             BufferedReader reader = new BufferedReader(
-                    new InputStreamReader(stream));
+                    new InputStreamReader(stream, "UTF-8"));
             StringBuilder sb = new StringBuilder();
             String line;
             while ((line = reader.readLine()) != null) {

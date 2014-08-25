@@ -17,6 +17,7 @@
       <property name="javax.persistence.jdbc.password" value="isma"/>
       <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
       <!-- EclipseLink properties -->
+      <property name="eclipselink.deploy-on-startup" value="true"/>
       <property name="eclipselink.target-database" value="DERBY"/>
       <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
       <property name="eclipselink.ddl-generation.output-mode" value="both"/>
@@ -25,7 +26,6 @@
       <property name="eclipselink.weaving" value="static"/>      
       <property name="eclipselink.logging.level" value="FINEST"/>
 <!--      <property name="eclipselink.debug" value="ALL"/>
-      <property name="eclipselink.deploy-on-startup" value="true"/>
       <property name="eclipselink.logging.level.sql" value="FINEST"/>
       <property name="eclipselink.logging.level.cache" value="FINEST"/>      -->
     </properties>

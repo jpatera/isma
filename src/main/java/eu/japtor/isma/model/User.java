@@ -14,6 +14,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
@@ -37,8 +38,10 @@ public class User implements Serializable {
     
 //    @XmlElement(name="id")
     @Id
+//    @SequenceGenerator(name="Usr_Gen", sequenceName="Usr_Seq")    
     @GeneratedValue(strategy=GenerationType.SEQUENCE)  
-        @DecimalMin(value = "1")
+//    @GeneratedValue(generator="Emp_Gen")    
+//        @DecimalMin(value = "1")
         private Long id;        // Surrogate ID
 //    @XmlElement(name="code")
         private String code;    // Domain user (UUID) code

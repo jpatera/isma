@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -45,8 +46,9 @@ public class Issue implements Serializable {
         private Integer priority;
     @Enumerated(EnumType.STRING)        
         private IssueStatus status;
-//    @OneToMany(mappedBy = "issue")
-//        private List<Comment> comments;
+//    @OneToMany(mappedBy = "issue", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "issue", cascade = CascadeType.ALL)
+        private List<Comment> comments;
 
     public Issue() {
     }

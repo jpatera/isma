@@ -52,6 +52,8 @@ public class Comment implements Serializable {
 //      @AttributeOverride(name   =  "fullName",
 //            column = @Column(name = "author_name")),
 //    })
+    @ManyToOne
+    private Issue issue;
 
         
         

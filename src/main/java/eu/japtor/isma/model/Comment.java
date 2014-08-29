@@ -18,6 +18,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.SecondaryTable;
@@ -53,6 +54,7 @@ public class Comment implements Serializable {
 //            column = @Column(name = "author_name")),
 //    })
     @ManyToOne
+    @JoinColumn(name = "issue_id")
     private Issue issue;
 
         

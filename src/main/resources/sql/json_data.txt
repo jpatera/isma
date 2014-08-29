@@ -1,0 +1,43 @@
+{
+"id":2,
+"created":1408572000000,
+"createdBy":{
+"id":1,
+"code":"1408638093060",
+"loginName":"cyrda",
+"loginPwd":"ccc",
+"firstName":"Cyril",
+"lastName":"Bašta",
+"fullName":"Cyril Bašta",
+"email":null
+},
+"assignedTo":{
+"id":1,
+"code":"1408638093060",
+"loginName":"cyrda",
+"loginPwd":"ccc",
+"firstName":"Cyril",
+"lastName":"Bašta",
+"fullName":"Cyril Bašta",
+"email":null
+},
+"summary":"Issue 2 summary summary summary",
+"description":"Issue 2 description",
+"priority":1,
+"status":"OPENED"
+}
+
+
+
+[
+{
+"id":1,
+"code":"1408638093060",
+"loginName":"cyrda",
+"loginPwd":"ccc",
+"firstName":"Cyril",
+"lastName":"Bašta",
+"fullName":"Cyril Bašta",
+"email":null
+}
+]

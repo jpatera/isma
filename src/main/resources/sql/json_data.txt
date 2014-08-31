@@ -7,8 +7,8 @@
 "loginName":"cyrda",
 "loginPwd":"ccc",
 "firstName":"Cyril",
-"lastName":"Bašta",
-"fullName":"Cyril Bašta",
+"lastName":"BaÅ¡ta",
+"fullName":"Cyril BaÅ¡ta",
 "email":null
 },
 "assignedTo":{
@@ -17,8 +17,8 @@
 "loginName":"cyrda",
 "loginPwd":"ccc",
 "firstName":"Cyril",
-"lastName":"Bašta",
-"fullName":"Cyril Bašta",
+"lastName":"BaÅ¡ta",
+"fullName":"Cyril BaÅ¡ta",
 "email":null
 },
 "summary":"Issue 2 summary summary summary",
@@ -36,8 +36,8 @@
 "loginName":"cyrda",
 "loginPwd":"ccc",
 "firstName":"Cyril",
-"lastName":"Bašta",
-"fullName":"Cyril Bašta",
+"lastName":"BaÅ¡ta",
+"fullName":"Cyril BaÅ¡ta",
 "email":null
 }
 ]

@@ -47,8 +47,8 @@ public class User implements Serializable {
         private String code;    // Domain user (UUID) code
 //    @XmlElement(name="fullName")
 //    @XmlElement(name="loginName")
-        @NotNull(message = "Nezadané login jméno.")
-        @Length(min = 4, max = 20)
+      @NotNull(message = "Nezadané login jméno.")
+      @Length(min = 4, max = 20)
         private String loginName;
 //    @XmlElement(name="loginPwd")
         private String loginPwd;
@@ -56,7 +56,7 @@ public class User implements Serializable {
         private String lastName;
         private String fullName;
 //        @Email(message="{user.wrong.email}", regexp = "[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}")
-        @Email(message="Špatná emailová adresa", regexp = "[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}")
+      @Email(message="Špatná emailová adresa", regexp = "[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}")
         private String email;
 
     

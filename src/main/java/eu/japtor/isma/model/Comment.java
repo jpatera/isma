@@ -57,7 +57,16 @@ public class Comment implements Serializable {
     @JoinColumn(name = "issue_id")
     private Issue issue;
 
-        
+    public void setIssue(Issue aIssue) {
+        this.issue = aIssue;
+        if (!this.issue.getComments().contains(this)) {
+            this.issue.getComments().add(this);
+        }
+    }       
+
+    public Issue getIssue() {
+        return issue;
+    }
         
         
     public Comment() {

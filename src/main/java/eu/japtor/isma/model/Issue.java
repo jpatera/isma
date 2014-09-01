@@ -7,6 +7,8 @@
 package eu.japtor.isma.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Access;
@@ -39,7 +41,7 @@ public class Issue implements Serializable {
         private Date created;
     @ManyToOne
         private User createdBy;
-    @ManyToOne
+    @ManyToOne (cascade = {CascadeType.REFRESH, CascadeType.MERGE})
         private User assignedTo;
         private String summary;
         private String description;
@@ -48,7 +50,7 @@ public class Issue implements Serializable {
         private IssueStatus status;
 //    @OneToMany(mappedBy = "issue", cascade = CascadeType.ALL)
     @OneToMany(mappedBy = "issue", cascade = CascadeType.ALL)
-        private List<Comment> comments;
+        private Collection<Comment> comments;
 
     public Issue() {
     }
@@ -73,7 +75,13 @@ public class Issue implements Serializable {
         }
         return canChange;
     }
-    
+
+    public void addComment(Comment aComment) {
+      this.comments.add(aComment);
+      if(aComment.getIssue() != this)
+        aComment.setIssue(this);
+    }
+  
     public Long getId() {
         return id;
     }
@@ -106,8 +114,33 @@ public class Issue implements Serializable {
         return status;
     }
 
-//    public List<Comment> getComments() {
-//        return comments;
-//    }
+
+    // Returns defensive copy
+    public Collection<Comment> getComments() {
+        return new ArrayList<Comment>(comments);
+    }
+
     
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || !(o instanceof Issue)) {
+            return false;
+        }
+        Issue other = (Issue)o;
+        // if the id is missing, return false
+        if (id == null) return false;
+        // equivalence by id
+        return id.equals(other.getId());
+    }
+
+    
+    @Override
+    public int hashCode() {
+        if (id != null) {
+            return id.hashCode();
+        } else {
+            return super.hashCode();
+        }
+    }    
 }

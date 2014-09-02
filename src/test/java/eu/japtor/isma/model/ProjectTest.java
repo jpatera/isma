@@ -6,6 +6,8 @@
 
 package eu.japtor.isma.model;
 
+import eu.japtor.isma.persistence.AtomIdGenerator;
+import eu.japtor.isma.persistence.ProjectRepoElnk;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -24,6 +26,9 @@ import static org.junit.Assert.*;
  */
 public class ProjectTest {
     private static EntityManagerFactory EMF;
+    private static User fakeUser;
+    private static UserVo fakeUserVo;
+    private ProjectRepo projectRepo;
     
     public ProjectTest() {
     }
@@ -31,7 +36,14 @@ public class ProjectTest {
    
     @BeforeClass
     public static void setUpClass() {
-        EMF = Persistence.createEntityManagerFactory("ismaDemo");        
+        EMF = Persistence.createEntityManagerFactory("ismaDemo");  
+        fakeUser = new User(AtomIdGenerator.nextId()
+                , "fake_login"
+                , "fake_pwd"
+                , "fake_first"
+                , "fake_last"
+                , "fake_login@email.com");  
+        fakeUserVo = new UserVo(fakeUser);
     }    
 
     
@@ -53,31 +65,14 @@ public class ProjectTest {
     @Test
     public void testNewProjectFields() {
         System.out.println("New project's fields");
-        Project proj = Project.buildNewProject(new User(), "Fake header", null);
+        Project proj = Project.buildNewProject(fakeUserVo, "Fake header", null);
         assertNull(proj.getId());
         assertNotNull(proj.getCreated());
-        assertNotNull(proj.getOwner());
+        assertNotNull(proj.getOwnerCode());
         assertNotNull(proj.getIssueIds());
         assertEquals(0, proj.getIssueIds().size());
     }
 
-
-    /**
-     * Test of fields immediately after new Project creation.
-     */
-    @Test
-    public void testProjectPersistence() {
-        System.out.println("Project persistence");
-        Project proj = Project.buildNewProject(new User(), "Fake header", null);
-        EntityManager em = EMF.createEntityManager();
-        em.getTransaction().begin();
-            em.persist(proj);
-            assertTrue(em.contains(proj));
-        em.getTransaction().commit();
-        assertTrue(em.contains(proj));
-        em.close();
-    }
-    
 
 //    /**
 //     * Test of getIssueIds method, of class Project.

@@ -6,8 +6,10 @@
 package eu.japtor.isma.persistence;
 
 import eu.japtor.isma.errors.AplWebException;
+import eu.japtor.isma.model.Project;
 import eu.japtor.isma.model.User;
 import eu.japtor.isma.model.UserRepo;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityManager;
@@ -46,9 +48,10 @@ public class UserRepoElnk implements UserRepo {
                 .setMaxResults(maxRec);
             return query.getResultList();
         } catch (NoResultException e) {
-            throw new AplWebException(Response.Status.NOT_FOUND
-                , "Nenalezena žádný uživatel"
-                , "Tabulka v DB je prazdna...?");            
+            return new ArrayList<User>();
+//            throw new AplWebException(Response.Status.NOT_FOUND
+//                , "Nenalezena žádný uživatel"
+//                , "Tabulka v DB je prazdna...?");            
         } catch (Exception e) {
             throw new AplWebException(Response.Status.INTERNAL_SERVER_ERROR
                 , "Chyba pri hledani uživatelů"

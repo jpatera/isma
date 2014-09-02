@@ -76,7 +76,6 @@ public class ApplicationConfig extends ResourceConfig {
         logger.info("+++   Initializing the database    +++");
 //        logger.info("RESOURCE THREAD: " + Thread.currentThread().getContextClassLoader().getResource("/"));
 //        logger.info("RESOURCE APPL. : " + ApplicationConfig.class.getResource("/"));
-
 //        logger.info("RESOURCE: " + ApplicationConfig.class.getResource("/sql/usr_insert.sql"). getPath());
 
         EntityManager em = EMF.createEntityManager();
@@ -91,7 +90,9 @@ public class ApplicationConfig extends ResourceConfig {
                 }
             em.getTransaction().commit();
         } catch (Exception e) {
+            logger.info("");
             logger.info("!!!   ERROR: while initializating DB    +++");
+            logger.info("");
             em.getTransaction().rollback();
         }
 

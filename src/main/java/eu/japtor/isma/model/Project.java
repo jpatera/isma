@@ -6,9 +6,11 @@
 
 package eu.japtor.isma.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,7 +23,8 @@ import javax.persistence.Transient;
  * @author Honza
  */
 @Entity
-public class Project {
+public class Project implements Serializable {
+    private static final long serialVersionUID = 13L;     
     private static int MAX_ISSUES = 5;
     
     @Id
@@ -29,30 +32,30 @@ public class Project {
         private Long id;
     @Temporal(javax.persistence.TemporalType.DATE)
         private Date created;
-    @Transient
-        private User owner;        
+        private String ownerCode;        
         private String header;
         private String description;
+    @ElementCollection       
         private List<Long> issueIds;
 
 
     protected Project() {
     }
 
-    private Project(User aOwner, String aHeader, String aDescription) {
-        this.owner = aOwner;     // Mandatory
+    private Project(String aOwnerCode, String aHeader, String aDescription) {
+        this.ownerCode = aOwnerCode;     // Mandatory
         this.header = aHeader;   // Mandatory
         this.description = aDescription;
         this.created = new Date(System.currentTimeMillis());
         this.issueIds = new ArrayList();
     }
 
-    // Static factory - we need checking of not nullable fields
-    public static Project buildNewProject (User aOwner, String aHeader, String aDescription) {
-       if ( (aOwner == null) || (aHeader.isEmpty()) ) {
+    // Static factory - we need checking for not nullable fields
+    public static Project buildNewProject (UserVo aUserVo, String aHeader, String aDescription) {
+       if ( (aUserVo == null) || (aUserVo.getCode().isEmpty()) || (aHeader.isEmpty()) ) {
            return null;
        }
-       return new Project(aOwner, aHeader, aDescription);
+       return new Project(aUserVo.getCode(), aHeader, aDescription);
     }
     
     
@@ -64,8 +67,8 @@ public class Project {
         return created;
     }
 
-    public User getOwner() {
-        return owner;
+    public String getOwnerCode() {
+        return ownerCode;
     }
 
     public String getHeader() {

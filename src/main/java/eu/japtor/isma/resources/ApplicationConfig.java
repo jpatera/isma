@@ -64,6 +64,7 @@ public class ApplicationConfig extends ResourceConfig {
         
         registerInstances(new UserResource(EMF));
         registerInstances(new IssueResource(EMF));
+        registerInstances(new InjectResource());
         
         register(ProjectServices.class);
         

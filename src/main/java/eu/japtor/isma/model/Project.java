@@ -51,11 +51,11 @@ public class Project implements Serializable {
     }
 
     // Static factory - we need checking for not nullable fields
-    public static Project buildNewProject (UserVo aUserVo, String aHeader, String aDescription) {
-       if ( (aUserVo == null) || (aUserVo.getCode().isEmpty()) || (aHeader.isEmpty()) ) {
+    public static Project buildNewProject (String aOwnerCode, String aHeader, String aDescription) {
+       if ( aOwnerCode.isEmpty() || aHeader.isEmpty() ) {
            return null;
        }
-       return new Project(aUserVo.getCode(), aHeader, aDescription);
+       return new Project(aOwnerCode, aHeader, aDescription);
     }
     
     

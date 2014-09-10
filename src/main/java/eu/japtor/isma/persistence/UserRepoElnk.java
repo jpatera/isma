@@ -9,6 +9,7 @@ import eu.japtor.isma.errors.AplWebException;
 import eu.japtor.isma.model.Project;
 import eu.japtor.isma.model.User;
 import eu.japtor.isma.model.UserRepo;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityExistsException;
@@ -68,13 +69,17 @@ public class UserRepoElnk implements UserRepo {
             query.setParameter(1, aUserCode);
             return query.getSingleResult();
         } catch (NoResultException e) {
-            throw new AplWebException(Response.Status.NOT_FOUND
-                , "Nenalezen uživatel s kódem=" + aUserCode
-                , "Takový uživatel v DB neexistuje...?");            
+            return null;
+//            throw new AplWebException(Response.Status.NOT_FOUND
+//                , "Nenalezen uživatel s kódem=" + aUserCode
+//                , "Takový uživatel v DB neexistuje...?");            
         } catch (Exception e) {
-            throw new AplWebException(Response.Status.INTERNAL_SERVER_ERROR
-                , "Chyba při hledání uživatele s kódem=" + aUserCode
-                , "Systémová zpráva:\n" + e.getMessage());            
+            throw new IllegalStateException(
+                  "Chyba při hledání uživatele s kódem=" + aUserCode
+                + "\nSystémová zpráva:\n" + e.getMessage());
+//            throw new AplWebException(Response.Status.INTERNAL_SERVER_ERROR
+//                , "Chyba při hledání uživatele s kódem=" + aUserCode
+//                , "Systémová zpráva:\n" + e.getMessage());            
         }
     }
 

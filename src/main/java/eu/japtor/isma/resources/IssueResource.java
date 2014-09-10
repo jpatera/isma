@@ -37,6 +37,8 @@ public class IssueResource {
     private final IssueRepo issueRepo;
     private final User fantomUser;
 
+//    @Inject(Scope=Singleton.class, name="deploy")
+    
     protected IssueResource(EntityManagerFactory aEMF) {
         // Create user repo with given Ent.Man.Factory:
         issueRepo = new IssueRepoElnk(aEMF);

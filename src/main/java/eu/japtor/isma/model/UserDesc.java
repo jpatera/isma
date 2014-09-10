@@ -13,7 +13,7 @@ import java.io.Serializable;
  * @author Honza
  */
 //@Embeddable
-public class UserVo implements Serializable {
+public class UserDesc implements Serializable {
     private static final long serialVersionUID = 13L;   
     
     private String code;    // Domain code
@@ -22,11 +22,11 @@ public class UserVo implements Serializable {
     private String email;
     
     
-    public UserVo() {
+    public UserDesc() {
         // ..for JAXB & JPA
     }
 
-    public UserVo(User aUser) {
+    public UserDesc(User aUser) {
         if (aUser == null) {
             throw new IllegalArgumentException("UserVo: user is null.");
         }

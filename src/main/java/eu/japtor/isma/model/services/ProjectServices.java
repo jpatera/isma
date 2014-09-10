@@ -9,7 +9,7 @@ package eu.japtor.isma.model.services;
 import eu.japtor.isma.model.Project;
 import eu.japtor.isma.model.User;
 import eu.japtor.isma.model.UserRepo;
-import eu.japtor.isma.model.UserVo;
+import eu.japtor.isma.model.UserDesc;
 import eu.japtor.isma.persistence.UserRepoElnk;
 import javax.ejb.EnterpriseBean;
 import javax.persistence.EntityManagerFactory;
@@ -28,7 +28,7 @@ public class ProjectServices {
     }
 
     
-    public static UserVo getProjectOwner(Project project) {
+    public UserDesc getProjectOwner(Project project) {
         String ownerCode = project.getOwnerCode();
         if (ownerCode == null) {
             return null;
@@ -38,7 +38,7 @@ public class ProjectServices {
             return null;
         }
 
-        return new UserVo(user);
+        return new UserDesc(user);
     }
     
 }

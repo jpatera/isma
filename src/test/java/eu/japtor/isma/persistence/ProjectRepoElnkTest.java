@@ -9,7 +9,7 @@ package eu.japtor.isma.persistence;
 import eu.japtor.isma.model.Project;
 import eu.japtor.isma.model.ProjectRepo;
 import eu.japtor.isma.model.User;
-import eu.japtor.isma.model.UserVo;
+import eu.japtor.isma.model.UserDesc;
 import java.sql.SQLException;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -30,7 +30,7 @@ public class ProjectRepoElnkTest {
     private static EntityManagerFactory EMF;
     private static EntityManager em;
     private static User fakeUser;
-    private static UserVo fakeUserVo;
+    private static UserDesc fakeUserDesc;
     private ProjectRepo projectRepo;
     
     
@@ -46,7 +46,7 @@ public class ProjectRepoElnkTest {
                 , "fake_first"
                 , "fake_last"
                 , "fake_login@email.com");  
-        fakeUserVo = new UserVo(fakeUser);        
+        fakeUserDesc = new UserDesc(fakeUser);
     }
     
     @AfterClass
@@ -99,7 +99,7 @@ public class ProjectRepoElnkTest {
     @Test
     public void testCreateProject() {
         System.out.println("Project persistence: createProject");
-        Project proj = Project.buildNewProject(fakeUserVo, "Fake header", null);
+        Project proj = Project.buildNewProject(fakeUserDesc.getCode(), "Fake header", null);
         assertNull(proj.getId());
         Long newId = projectRepo.createProject(proj);
         assertNotNull(proj.getId());

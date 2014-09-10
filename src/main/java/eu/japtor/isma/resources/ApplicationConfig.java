@@ -5,6 +5,7 @@
  */
 package eu.japtor.isma.resources;
 
+import eu.japtor.isma.model.services.ProjectServices;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -59,8 +60,12 @@ public class ApplicationConfig extends ResourceConfig {
 //                        .getResourceAsStream(
 //                                "/META-INF/create-database.sql"));
 
+        register(new DependencyBinder());
+        
         registerInstances(new UserResource(EMF));
         registerInstances(new IssueResource(EMF));
+        
+        register(ProjectServices.class);
         
         // Validation.
 //        register(ValidationConfigurationContextResolver.class);
@@ -100,6 +105,7 @@ public class ApplicationConfig extends ResourceConfig {
         logger.info("*****   Application config OK   ******");
         logger.info("");
     }
+
 //
 //    @Override
 //    public Set<Object> getSingletons() {

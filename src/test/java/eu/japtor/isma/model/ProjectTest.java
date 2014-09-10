@@ -27,7 +27,7 @@ import static org.junit.Assert.*;
 public class ProjectTest {
     private static EntityManagerFactory EMF;
     private static User fakeUser;
-    private static UserVo fakeUserVo;
+    private static UserDesc fakeUserDesc;
     private ProjectRepo projectRepo;
     
     public ProjectTest() {
@@ -37,13 +37,16 @@ public class ProjectTest {
     @BeforeClass
     public static void setUpClass() {
         EMF = Persistence.createEntityManagerFactory("ismaDemo");  
-        fakeUser = new User(AtomIdGenerator.nextId()
+        fakeUser = new User(
+                  AtomIdGenerator.nextId()
                 , "fake_login"
                 , "fake_pwd"
                 , "fake_first"
                 , "fake_last"
                 , "fake_login@email.com");  
-        fakeUserVo = new UserVo(fakeUser);
+        fakeUserDesc = new UserDesc(fakeUser);
+        assertNotNull(fakeUserDesc);
+        assertNotNull(fakeUserDesc.getCode());
     }    
 
     
@@ -65,7 +68,7 @@ public class ProjectTest {
     @Test
     public void testNewProjectFields() {
         System.out.println("New project's fields");
-        Project proj = Project.buildNewProject(fakeUserVo, "Fake header", null);
+        Project proj = Project.buildNewProject(fakeUserDesc.getCode(), "Fake header", null);
         assertNull(proj.getId());
         assertNotNull(proj.getCreated());
         assertNotNull(proj.getOwnerCode());

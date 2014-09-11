@@ -30,15 +30,18 @@ import javax.ws.rs.core.Response;
 public class UserRepoElnk implements UserRepo {
 
     private static final int STANDARD_MAX_REC = 20;
-    private static EntityManagerFactory EMF;
+    private EntityManagerFactory EMF;
+    private EntityManager em;
 
     public UserRepoElnk(EntityManagerFactory aEMF) {
         EMF = aEMF;
+//        EntityManager em = EMF.createEntityManager();
+        em = EMF.createEntityManager();
     }
 
     @Override
     public List<User> getUsers(Integer aMaxRec) {
-        EntityManager em = EMF.createEntityManager();
+//        EntityManager em = EMF.createEntityManager();
         Integer maxRec = aMaxRec;
         if ((maxRec == null) || (maxRec < 1)) {
             maxRec = STANDARD_MAX_REC;
@@ -63,7 +66,7 @@ public class UserRepoElnk implements UserRepo {
     @Override
     public User getUserByCode(String aUserCode) {
         try {
-            EntityManager em = EMF.createEntityManager();
+//            EntityManager em = EMF.createEntityManager();
             String qStr = "select u from User u where u.code = ?1";
             TypedQuery<User> query = em.createQuery(qStr, User.class);
             query.setParameter(1, aUserCode);
@@ -86,7 +89,7 @@ public class UserRepoElnk implements UserRepo {
     @Override
     public User getUserByLoginName(String aLoginName) {
         try {
-            EntityManager em = EMF.createEntityManager();
+//            EntityManager em = EMF.createEntityManager();
             String qStr = "select u from User u where u.loginName = ?1";
             TypedQuery<User> query = em.createQuery(qStr, User.class);
             query.setParameter(1, aLoginName);
@@ -104,7 +107,7 @@ public class UserRepoElnk implements UserRepo {
 
     @Override
     public String createUser(User aUser) {
-        EntityManager em = EMF.createEntityManager();
+//        EntityManager em = EMF.createEntityManager();
         try {
             em.getTransaction().begin();
                 em.persist(aUser);
@@ -125,7 +128,7 @@ public class UserRepoElnk implements UserRepo {
 
     @Override
     public int deleteUserByCode(String aUserCode) {
-        EntityManager em = EMF.createEntityManager();
+//        EntityManager em = EMF.createEntityManager();
         try {
             em.getTransaction().begin();
                 String qStr = "delete from User u where u.code = :p_code";
@@ -144,7 +147,7 @@ public class UserRepoElnk implements UserRepo {
     
     @Override
     public int deleteUserByLoginName(String aLoginName) {
-        EntityManager em = EMF.createEntityManager();
+//        EntityManager em = EMF.createEntityManager();
         try {
             em.getTransaction().begin();
                 String qStr = "delete from User u where u.loginName = :p_login";
@@ -162,7 +165,7 @@ public class UserRepoElnk implements UserRepo {
 
     @Override
     public void deleteAllUsers() {
-        EntityManager em = EMF.createEntityManager();
+//        EntityManager em = EMF.createEntityManager();
         try {
             em.getTransaction().begin();
             Query query = em.createNativeQuery("TRUNCATE TABLE usr");
@@ -179,7 +182,7 @@ public class UserRepoElnk implements UserRepo {
     
     @Override
     public boolean userWithUserCodeExist(String aUserCode) {
-        EntityManager em = EMF.createEntityManager();
+//        EntityManager em = EMF.createEntityManager();
         try {
             Query query = em.createNativeQuery(
                 "select count(*) cnt from usr where code ='" +  aUserCode + "'");        
@@ -194,7 +197,7 @@ public class UserRepoElnk implements UserRepo {
 
     @Override
     public boolean userWithLoginNameExist(String aLoginName) {
-        EntityManager em = EMF.createEntityManager();
+//        EntityManager em = EMF.createEntityManager();
         try {
             Query query = em.createNativeQuery(
                 "select count(*) cnt from usr where loginname = '" + aLoginName + "'");

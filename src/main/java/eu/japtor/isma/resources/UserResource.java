@@ -11,6 +11,7 @@ import eu.japtor.isma.model.UserRepo;
 import eu.japtor.isma.persistence.AtomIdGenerator;
 import eu.japtor.isma.persistence.UserRepoElnk;
 import java.util.List;
+import javax.inject.Inject;
 import javax.persistence.EntityManagerFactory;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
@@ -32,12 +33,13 @@ import javax.ws.rs.core.UriInfo;
  */
 @Path("users")
 public class UserResource {
-    private final UserRepo userRepo;
+    @Inject
+    UserRepo userRepo;
 
-    protected UserResource(EntityManagerFactory aEMF) {
-        // Create user repo with given Ent.Man.Factory:
-        userRepo = new UserRepoElnk(aEMF);
-    }
+//    protected UserResource(EntityManagerFactory aEMF) {
+//        // Create user repo with given Ent.Man.Factory:
+//        userRepo = new UserRepoElnk(aEMF);
+//    }
 
     
     /**

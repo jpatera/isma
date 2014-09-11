@@ -13,6 +13,11 @@ package eu.japtor.isma.resources;
 public class InjectTestImpl implements InjectTest {
     private final String text = "ABCD-EFGH  ";
     private int i = 1;
+    private double random;
+
+    public InjectTestImpl(double aRandom) {
+        random = aRandom;
+    }
 
     @Override
     public String getInjectedText() {

@@ -6,27 +6,31 @@
 
 package eu.japtor.isma.resources;
 
-import eu.japtor.isma.model.Issue;
-import java.util.List;
 import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 /**
  *
  * @author Honza
  */
+//@Singleton
 @Path("/inj")
 public class InjectResource {
-
-    @Inject InjectTest injectTest;
+    private int counter=11;
+    
+    @Inject
+    InjectTest injectTest;
 
     @GET
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public String getInjection() {
-        return injectTest.getInjectedText();
+        counter ++;
+        return
+               injectTest.getInjectedText()
+             + "\nResource counter: " + Integer.toString(counter);
     }
 }

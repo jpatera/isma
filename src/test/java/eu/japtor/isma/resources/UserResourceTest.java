@@ -6,15 +6,27 @@
 
 package eu.japtor.isma.resources;
 
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import eu.japtor.isma.model.User;
+import java.io.IOException;
 import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Invocation.Builder;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+import org.glassfish.jersey.client.ClientConfig;
+import org.glassfish.jersey.jackson.JacksonFeature;
 import static org.hamcrest.CoreMatchers.is;
 import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -49,7 +61,32 @@ public class UserResourceTest {
     }
 
     
-    
+//    @Test
+//    public void testGetUser() throws JsonGenerationException,
+//            JsonMappingException, IOException {
+//
+//        ClientConfig clientConfig = new ClientConfig();
+//        clientConfig.register(JacksonFeature.class);
+//
+//        Client client = ClientBuilder.newClient(clientConfig);
+//
+//        WebTarget webTarget = client
+//                .target("http://localhost:8888/isma/users/byLogin/jarda");
+//
+//        Builder request = webTarget.request(MediaType.APPLICATION_JSON);
+//
+//        Response response = request.get();
+//        Assert.assertTrue(response.getStatus() == 200);
+//
+//        User usr = response.readEntity(User.class);
+//
+//        ObjectMapper mapper = new ObjectMapper();
+//        System.out
+//                .print("Received user from database *************************** "
+//                        + mapper.writerWithDefaultPrettyPrinter()
+//                        .writeValueAsString(usr));
+//
+//    }
     
     
 //    /**

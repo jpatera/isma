@@ -69,7 +69,8 @@ public class ProjectServicesTest {
         System.out.println("getProjectOwner");
         Project project = Project.buildNewProject(fakeUserDesc.getCode(), "Fake header", null);
         assertNotNull(project);
-        ProjectServices projectServices = new ProjectServices(EMF);
+//        ProjectServices projectServices = new ProjectServices(EMF);
+        ProjectServices projectServices = new ProjectServices();
         UserDesc projectOwnerDesc = projectServices.getProjectOwner(project);
         assertNotNull(projectOwnerDesc);
         assertEquals("fake_login", projectOwnerDesc.getLoginName());

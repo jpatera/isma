@@ -12,6 +12,7 @@ import eu.japtor.isma.model.UserRepo;
 import eu.japtor.isma.model.UserDesc;
 import eu.japtor.isma.persistence.UserRepoElnk;
 import javax.ejb.EnterpriseBean;
+import javax.inject.Inject;
 import javax.persistence.EntityManagerFactory;
 
 /**
@@ -20,13 +21,15 @@ import javax.persistence.EntityManagerFactory;
  */
 public class ProjectServices {
     private static EntityManagerFactory EMF;
-    private static UserRepo userRepo;
+    @Inject private UserRepo userRepo;
 
-    public ProjectServices(EntityManagerFactory aEMF) {
-        this.EMF = aEMF;
-        userRepo = new UserRepoElnk(EMF);        
+//    public ProjectServices(EntityManagerFactory aEMF) {
+//        this.EMF = aEMF;
+//        userRepo = new UserRepoElnk(EMF);        
+//    }
+
+    public ProjectServices() {
     }
-
     
     public UserDesc getProjectOwner(Project project) {
         String ownerCode = project.getOwnerCode();
